@@ -191,7 +191,7 @@ export default function DashboardPage() {
     () =>
       accounts.map((a) => ({
         value: String(a.id),
-        label: `${a.name} — ${currencyById.get(a.currency_id) ?? a.currency_id} — balance: ${centsToMajor(
+        label: `${a.name} — ${currencyById.get(a.currency_id) ?? a.currency_id} ${centsToMajor(
           a.balance_cents
         )}`,
       })),
@@ -395,6 +395,7 @@ export default function DashboardPage() {
           <table className="table">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Currency</th>
                 <th>Balance</th>
@@ -410,6 +411,7 @@ export default function DashboardPage() {
               ) : (
                 accounts.map((a) => (
                   <tr key={a.id}>
+                    <td>{a.id}</td>
                     <td>{a.name}</td>
                     <td>{currencyById.get(a.currency_id) ?? a.currency_id}</td>
                     <td>{centsToMajor(a.balance_cents)}</td>
@@ -418,9 +420,6 @@ export default function DashboardPage() {
               )}
             </tbody>
           </table>
-          <div className="subtle" style={{ marginTop: 10 }}>
-            Transfers are rejected if accounts use different currencies.
-          </div>
         </Card>
 
         <div className="grid">
