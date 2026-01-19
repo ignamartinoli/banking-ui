@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { register, setToken } from "../api/http.js";
 import { useNavigate } from "react-router-dom";
+import { Card, Field, Input, Button, Alert } from "../components/ui.jsx";
 
 export default function RegisterPage() {
   const nav = useNavigate();
@@ -16,19 +17,27 @@ export default function RegisterPage() {
       setToken(res.access_token);
       nav("/dashboard");
     } catch (ex) {
-      setErr(ex.message);
+      setErr(ex?.message ?? "Registration failed");
     }
   };
 
   return (
-    <div>
-      <h3>Register</h3>
-      {err && <p style={{ color: "crimson" }}>{err}</p>}
-      <form onSubmit={onSubmit} style={{ display: "grid", gap: 10, maxWidth: 360 }}>
-        <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">Create account</button>
-      </form>
+    <div className="grid" style={{ maxWidth: 520 }}>
+      <Card
+        title="Register"
+        subtitle="Creates a user and returns a JWT token."
+      >
+        {err && <Alert kind="danger">{err}</Alert>}
+        <form onSubmit={onSubmit} className="row" style={{ marginTop: 12 }}>
+          <Field label="Email">
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@domain.com" />
+          </Field>
+          <Field label="Password">
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password123_" />
+          </Field>
+          <Button type="submit">Create account</Button>
+        </form>
+      </Card>
     </div>
   );
 }
